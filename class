@@ -1,0 +1,66 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Human {
+private:
+    int height;
+    int weight;
+    int age;
+    string gender;
+    string nationality;
+    string name;
+
+public:
+    Human(int h, int w, int a, string g, string n, string nm)
+    {
+        height = h;
+        weight = w;
+        age = a;
+        gender = g;
+        nationality = n;
+        name = nm;
+    }
+
+    void say_hello()
+    {
+        cout << "Hello, Tanya!" << endl;
+    }
+
+    void change_gender()
+    {
+        gender = !gender;
+    }
+
+    void change_age(int days)
+    {
+        const int DayPerYear = 365;
+        age = days / DayPerYear;
+    }
+
+    void display()
+    {
+        cout << "Height: " << height << endl;
+        cout << "Weight: " << weight << endl;
+        cout << "Age: " << age << endl;
+        cout << "Gender: " << gender << endl;
+        cout << "Nationaly: " << nationality << endl;
+        cout << "Name: " << name << endl;
+    }
+};
+
+int main()
+{
+    Human person(170, 45, 17, "Male", "Russian", "Timofei");
+
+    person.display();
+    person.say_hello();
+
+    person.change_age(30);
+    person.change_gender("Female");
+
+    person.display();
+
+    return 0;
+}
+
