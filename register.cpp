@@ -57,7 +57,7 @@ class RegistrationSystem {
 };
 
 int main() {
-    RegistrationSystem system; // Создаем экземпляр класса RegistrationSystem
+    RegistrationSystem system;
     system.addUser("Alice", "qwerty");
     std::cout << "Alice registered" << std::endl;
     system.addUser("Bob", "12345")
