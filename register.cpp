@@ -1,65 +1,84 @@
 #include <iostream>
 #include <string>
-#include <vector>
-
-using namespace std;
+#define MAX_USERS 100 
 
 class User {
-private:
-    string username;
-    string password;
-public:
-    User(string username, string password) {
-        this->username = username;
-        this->password = password;
-    }
-
-    string getUsername() {
-        return this->username;
-    }
-    string getPassword() {
-        return this->password;
-    }
+    private:
+        std::string name;
+        std::string password;
+    public:
+        User() {};
+        User(std::string name, std::string password) {
+            this->name = name;
+            this->password = password;
+        }
+        std::string getName() {
+            return name;
+        }
+        std::string getPassword() {
+            return password;
+        }
 };
 
-class Authorization {
-public:
-    void registerUser(string username, string password) {
-        User user(username, password);
-            users.push_back(user);
-    }
-
-    bool login(string username, string password) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users[i].getUsername() == username && users[i].getPassword() == password) {
-                return true;
+class RegistrationSystem {
+    private:
+        User users[MAX_USERS];
+        int numUsers = 0;
+        int findUser(std::string name) {
+            for (int i = 0; i < numUsers; i++) {
+                if (users[i].getName() == name) {
+                    return i;
+                }
             }
+            return -1;
         }
-        return false;
-    }
-    
-private:
-    vector<User>users;
+    public:
+        bool addUser(std::string name, std::string password) {
+            if (numUsers >= MAX_USERS) {
+                return false;
+            }
+            if (findUser(name) != -1) {
+                return false;
+            }
+            users[numUsers] = User(name, password); 
+            numUsers++; 
+            return true;
+        }
+        bool login(std::string name, std::string password) { 
+            int index = findUser(name); 
+            if (index == -1) { 
+                return false;
+            }
+            if (users[index].getPassword() != password) { 
+                return false;
+            }
+            return true; 
+        }
 };
 
 int main() {
-    Authorization auth;
-    auth.registerUser("user1", "password1");
-    auth.registerUser("user2", "password2");
+    RegistrationSystem system; // Создаем экземпляр класса RegistrationSystem
+    system.addUser("Alice", "qwerty");
+    std::cout << "Alice registered" << std::endl;
+    system.addUser("Bob", "12345")
 
-    string username, password;
-    cout << "Пожалуйста, введите Ваше имя: ";
-    cin >> username;
-    cout << "Пожалуйста, введите Ваш пароль: ";
-    cin >> password;
+    std::cout << "Bob registered" << std::endl;
+    bool loginResult1 = system.login("Alice", "qwerty");
 
-    if (auth.login(username, password)) {
-        cout << "Логин верен" << endl;
+        std::cout << "Alice logged in" << std::endl;
+    } else {
+        std::cout << "Alice login failed" << std::endl;
     }
-    else {
-        cout << "Логин неверен" << endl;
-    }
+    bool loginResult2 = system.login("Bob", "wrongpassword");
 
+        std::cout << "Bob logged in" << std::endl;
+    } else {
+        std::cout << "Bob login failed" << std::endl;
+    }
+    bool loginResult3 = system.login("Charlie", "mypassword");
+        std::cout << "Charlie logged in" << std::endl;
+    } else {
+        std::cout << "Charlie login failed" << std::endl;
+    }
     return 0;
 }
-
